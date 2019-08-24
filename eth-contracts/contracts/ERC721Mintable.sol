@@ -1,10 +1,13 @@
-pragma solidity ^0.5.0;
+pragma solidity >=0.5.0; //^
 
 import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
-import "./Oraclize.sol";
+import 'openzeppelin-solidity/contracts/access/roles/PauserRole.sol';
+import 'openzeppelin-solidity/contracts/access/roles/MinterRole.sol';
+
+import "./oraclizeAPI_0.5.sol";
 
 contract Ownable {
     // * 1) create a private '_owner' variable of type address with a public getter function
@@ -124,7 +127,7 @@ contract Pausable is PauserRole, Ownable {
     /**
      * @dev Modifier to make a function callable only when the contract is paused.
      */
-    modifier paused() {
+    modifier whenPaused() {
         require(_paused, "Pausable: not paused");
         _;
     }
@@ -643,7 +646,7 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
      */
     function _setTokenURI(uint256 tokenId) internal {
         require(_exists(tokenId), "ERC721Metadata: URI set of nonexistent token");
-        _tokenURIs[tokenId] = oraclizeAPI.strConcat(uint2str(tokenId),_baseTokenURI);
+        _tokenURIs[tokenId] = strConcat(uint2str(tokenId),_baseTokenURI);
     }
 
 }
@@ -662,10 +665,11 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
  */
 contract CustomERC721Token is ERC721, ERC721Metadata, MinterRole {
 
-    string baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
+    string _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
 
-    constructor (string memory name, string memory symbol, string memory baseTokenURI) 
-        ERC721Metadata("CapsToken", "CPS", baseTokenURI) public; 
+    constructor (string memory name, string memory symbol, string memory baseTokenURI) ERC721Metadata(name, symbol, _baseTokenURI) public {
+
+    }
     /**
      * @dev Function to mint tokens.
      * @param to The address that will receive the minted tokens.
@@ -675,7 +679,7 @@ contract CustomERC721Token is ERC721, ERC721Metadata, MinterRole {
      */
     function mintWithTokenURI(address to, uint256 tokenId, string memory tokenURI) public onlyMinter returns (bool) {
         _mint(to, tokenId);
-        _setTokenURI(tokenId, tokenURI);
+        _setTokenURI(tokenId);
         return true;
     }
 }
