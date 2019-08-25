@@ -2,18 +2,18 @@
 The capstone is devoted to build a decentralized housing product. 
 
 ## Tasks
-### Student completes the boilerplate ERC721 Mintable Contract in ERC721Mintable.sol
-### Student writes and passes the test cases in TestERC721Mintable.js
-### Student writes and passes the test cases in 'TestSquareVerifier.js'
+- Student completes the boilerplate ERC721 Mintable Contract in ERC721Mintable.sol
+- Student writes and passes the test cases in TestERC721Mintable.js
+- Student writes and passes the test cases in 'TestSquareVerifier.js'
 
 
-### Student completes the Zokrates proof in square.code by adding the variable names in square.code
-### Student writes and passes the test cases in 'TestSquareVerifier.js'
+- Student completes the Zokrates proof in square.code by adding the variable names in square.code
+- Student writes and passes the test cases in 'TestSquareVerifier.js'
 
-->### Student completes test contract in SolnSquareVerifier.sol
-->### Student writes and passes the test cases in 'TestSolnSquareVerifier.js'
-->### Student list ERC721/ ZoKrates tokens & complete transactions on market place 
-->### Student deploys ERC721 contracts with Zokrates integration.
+- --> Student completes test contract in SolnSquareVerifier.sol
+- --> Student writes and passes the test cases in 'TestSolnSquareVerifier.js'
+- --> Student list ERC721/ ZoKrates tokens & complete transactions on market place 
+- --> Student deploys ERC721 contracts with Zokrates integration.
 
 ## Setup project for Review.
 - truffle test
