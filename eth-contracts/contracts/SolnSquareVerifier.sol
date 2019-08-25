@@ -1,5 +1,30 @@
 pragma solidity >=0.4.21 <0.6.0;
 
+/* The first requirement is to define a contract call to the zokrates generated solidity contract <Verifier>. 
+What exactly are you meaning here? 
+Have I to create a contract that inherit from Verifier?
+
+You need to do something similar to what you did on the FlightSurety Project
+
+    Create an instance of the Verifier contract inside the SolnSquareVerifier contract
+    And outside of the SolnSquareVerifier contract create a contract interface for the Verifier contract to be able to call its functions
+*/
+
+import './ERC721Mintable.sol';
+// TODO define a contract call to the zokrates generated solidity contract Verifier.sol
+// TODO define another contract named SolnSquareVerifier that inherits ERC721Mintable
+
+contract SolnSquareVerifier is UdacityRealStateTitle, ERC721Mintable {
+    constructor(address verifierAddress, string memory name, string memory symbol) UdacityRealStateTitle(name, symbol) public 
+    {
+        verifierContract = Verifier(verifierAddress);
+    }
+}
+
+contract Verifier {
+
+}
+
 // TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
 
 

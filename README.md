@@ -4,8 +4,69 @@ The capstone is devoted to build a decentralized housing product.
 ## Tasks
 ### Student completes the boilerplate ERC721 Mintable Contract in ERC721Mintable.sol
 ### Student writes and passes the test cases in TestERC721Mintable.js
+### Student writes and passes the test cases in 'TestSquareVerifier.js'
+
+
+### Student completes the Zokrates proof in square.code by adding the variable names in square.code
+### Student writes and passes the test cases in 'TestSquareVerifier.js'
+
+->### Student completes test contract in SolnSquareVerifier.sol
+->### Student writes and passes the test cases in 'TestSolnSquareVerifier.js'
+->### Student list ERC721/ ZoKrates tokens & complete transactions on market place 
+->### Student deploys ERC721 contracts with Zokrates integration.
 
 ## Setup project for Review.
+- truffle test
+- docker run -v /Users/anolan/code/udacity/BlockChainDeveloper_II/Blockchain-Capstone/zokrates/code/:/home/zokrates/code -ti zokrates/zokrates /bin/bash
+- cd code/square/
+- ~/zokrates compile -i square.code 
+Compiling square.code
+Compiled program:
+def main(_0, _1) -> (1):
+        (1 * _0) * (1 * _0) == 1 * _4
+        # _2, _3 = Rust::ConditionEq((-1) * _1 + 1 * _4)
+        ((-1) * _1 + 1 * _4) * (1 * _3) == 1 * _2
+        (1 * ~one + (-1) * _2) * ((-1) * _1 + 1 * _4) == 0
+        (1 * ~one + (-1) * _2) * (1 * ~one + (-1) * _2) == 1 * ~one + (-1) * _2
+        (1 * ~one) * (1 * ~one + (-1) * _2) == 1 * ~out_0
+         return ~out_0
+Compiled code written to 'out'
+Human readable code to 'out.code'
+Number of constraints: 5
+- ~/zokrates setup                  
+Performing setup...
+def main(_0, _1) -> (1):
+        (1 * _0) * (1 * _0) == 1 * _4
+        # _2, _3 = Rust::ConditionEq((-1) * _1 + 1 * _4)
+        ((-1) * _1 + 1 * _4) * (1 * _3) == 1 * _2
+        (1 * ~one + (-1) * _2) * ((-1) * _1 + 1 * _4) == 0
+        (1 * ~one + (-1) * _2) * (1 * ~one + (-1) * _2) == 1 * ~one + (-1) * _2
+        (1 * ~one) * (1 * ~one + (-1) * _2) == 1 * ~out_0
+         return ~out_0
+<!--WARNING: You are using the G16 scheme which is subject to malleability. See zokrates.github.io/reference/proving_schemes.html#g16-malleability for implications.-->
+Has generated 7 points
+- ~/zokrates compute-witness -a 3 9
+Computing witness...
+def main(_0, _1) -> (1):
+        (1 * _0) * (1 * _0) == 1 * _4
+        # _2, _3 = Rust::ConditionEq((-1) * _1 + 1 * _4)
+        ((-1) * _1 + 1 * _4) * (1 * _3) == 1 * _2
+        (1 * ~one + (-1) * _2) * ((-1) * _1 + 1 * _4) == 0
+        (1 * ~one + (-1) * _2) * (1 * ~one + (-1) * _2) == 1 * ~one + (-1) * _2
+        (1 * ~one) * (1 * ~one + (-1) * _2) == 1 * ~out_0
+         return ~out_0
+Witness: 
+~out_0 1
+- ~/zokrates generate-proof
+Generating proof...
+generate-proof successful: true
+- ~/zokrates export-verifier
+Exporting verifier...
+Finished exporting verifier.
+
+
+
+
 
 The smart contract tokens should have a name and a symbol. They can be changed in the StarNotary.sol file.
 Currently, the name of the token is **Project 5 Token**, and the symbol is **P5T**.
