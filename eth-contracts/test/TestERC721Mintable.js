@@ -1,3 +1,4 @@
+
 const assert = require("chai").assert;
 const truffleAssert = require('truffle-assertions');
 const tokenSupply = 1;
