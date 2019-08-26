@@ -6,7 +6,7 @@ import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
 import "./oraclizeAPI_0.5.sol";
 import 'openzeppelin-solidity/contracts/access/roles/PauserRole.sol';
-import 'openzeppelin-solidity/contracts/access/roles/MinterRole.sol';
+//import 'openzeppelin-solidity/contracts/token/ERC721/ERC721Mintable.sol';
 contract Ownable {
     // * 1) create a private '_owner' variable of type address with a public getter function
     // * 2) create an internal constructor that sets the _owner var to the creater of the contract 

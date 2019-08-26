@@ -14,19 +14,20 @@ contract('TestERC721Mintable', accounts => {
             let name = "capstone";
             let symbol = "CPS";
             this.contract = await ERC721MintableComplete.new(name, symbol, {from: account_one});
-//            this.contract.mintWithTokenURI(account_one, this.tokenId,  "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/");
-            this.contract.mintWithTokenURI(account_one, 1,  {from: account_one});
+            await this.contract.mintWithTokenURI(account_one, 1,  {from: account_one});
+            await this.contract.mintWithTokenURI(account_one, 2,  {from: account_one});
+
             // TODO: mint multiple tokens
         })
 
          it('should return total supply', async function () { 
              let supply = await this.contract.totalSupply.call(); //tokens supplied
-             assert.equal(supply, 1, 'should return total supply'); 
+             assert.equal(supply, 2, 'should return total supply'); 
          })
 
         it('should get token balance', async function () { 
             let balance = await this.contract.balanceOf.call(account_one);
-            assert.equal(balance, 1, 'should get token balance'); 
+            assert.equal(balance, 2, 'should get token balance'); 
         })
 
         // token uri should be complete i.e: https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/1
@@ -42,13 +43,15 @@ contract('TestERC721Mintable', accounts => {
             {
                 await this.contract.transferOwnership(account_two, {from: account_one}).then(async ()=> {
                         contractOwner = await this.contract.owner.call();
+                        assert(reverted == false && contractOwner == account_two, "Token should transfer from one owner to another");
                     }
                 )
             }
             catch(e) {
                 reverted = true;
+                return false;
             }
-            assert(reverted == false && contractOwner == account_two, "Token should transfer from one owner to another");
+            //assert(reverted == false && contractOwner == account_two, "Token should transfer from one owner to another");
             //capture event
             //event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
         })
@@ -65,14 +68,14 @@ contract('TestERC721Mintable', accounts => {
             let reverted = false;
             try 
             {
-                this.contract.mintWithTokenURI(account_two, 1,  {from: account_one});
+                await this.contract.mintWithTokenURI(account_two, 1,  {from: account_one}).then(()=> {
+                    assert(reverted == false , "Should fail when minting when address is not contract owner");
+                })
             }
             catch(e) {
                 reverted = true;
+                return false;
             }
-            assert(reverted == false , "Should fail when minting when address is not contract owner");
-
-
         })
 
         it('should return contract owner', async function () { 

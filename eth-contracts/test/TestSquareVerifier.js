@@ -3,64 +3,44 @@
 // - use the contents from proof.json generated from zokrates steps
 // Test verification with incorrect proof
 
-//let importer = 
-   
-// const assert = require("chai").assert;
-// const truffleAssert = require('truffle-assertions');
+const assert = require("chai").assert;
+const truffleAssert = require('truffle-assertions');
+var SquareVerifier = artifacts.require("./Verifier.sol");
 
-//var ERC721MintableComplete = artifacts.require('CustomERC721Token'); 
-
-/*verifyTx.
-Victor monitors the verification smart contract for the Verified event, 
-which is emitted upon successful verification of a transaction. 
-As soon as he observes the event triggered by a transaction from 
-Peggy's public address, he can be sure that Peggy has a valid pre-image for the hash he set in the smart contract.
-*/
-//contract('TestSquareVerifier', accounts => {
+contract('TestSquareVerifier', accounts => {
 
     // const account_one = accounts[0];
     // const account_two = accounts[1];
     // //"input":["b","result"]
 
-    // var p = require("./proof.json").proof;
-    // var i = require("./proof.json").input;
+    describe('match erc721 spec', function () {
+        beforeEach(async function () { 
+       })
 
-    //verifier.verifyTx(p.A, p.A_p, p.B, p.B_p, p.C, p.C_p, p.H, p.K, i);
+        it('verifies correctly', async function () { 
+            let squareVerifier = await SquareVerifier.new();
+            var p = require("./proof3.json").proof;
+            var i = require("./proof3.json").inputs;
+        
+            let myreceipt = await squareVerifier.verifyTx(p.a, p.b, p.c, i);
 
+            //Verified("Transaction successfully verified.");
+            truffleAssert.eventEmitted(myreceipt, 'Verified', (ev) => {
+                console.log(ev.s);
+                return true;
+            });
+           //assert.equal(  ,"Verification incorrect: returning false when true" ); 
+        })
 
-    // describe('match erc721 spec', function () {
-    //     beforeEach(async function () { 
-    //         this.contract = await ERC721MintableComplete.new({from: account_one});
-    //         this.contract.mintWithTokenURI(account_one, this.tokenId);
-    //       //  this.contract.mintWithTokenURI(account_one, this.tokenId,  "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/");
+        it('verifies incorrect values', async function () { 
+            let squareVerifier = await SquareVerifier.new();
+            let p = require("./proof3.json").proof;
+            let i = [5,1];
+            
+            let ret = await squareVerifier.verifyTx.call(p.a, p.b, p.c, i);
 
-    //         console.log("token id", this.tokenId);
-    //         // TODO: mint multiple tokens
-    //     })
-
-    //     it('verifies correctly', async function () { 
-    //         uint256 number = this.contract.totalSupply.call(); 
-
-    //        // assert.equal(  ,"Verification incorrect: returning false when true" ); 
-    //     })
-
-    //     it('verifies incorrect values', async function () { 
-    //         uint256 balance = this.contract.balance.call();
-
-    //      //   assert.equal(, "Verification incorrect: returning true when false"); 
-    //     })
-    //     // it('can request flight status', async () => {
-    //     //     // ARRANGE
-    //     //     let flight = 'ND1309'; // Course number
-    //     //     let timestamp = Math.floor(Date.now() / 1000);
-
-    //     //     // Submit a request for oracles to get status information for a flight
-    //     //     let myreceipt = await config.flightSuretyApp.fetchFlightStatus(config.firstAirline, flight, timestamp);
-
-    //     //     // ACT emit OracleRequest(index, airline, flight, timestamp)
-    //     //     truffleAssert.eventEmitted(myreceipt, 'OracleRequest', (ev) => {
-    //     //     console.log(ev.index, ev.airline, ev.flight, ev.timestamp);
-    //     //     return true;
-    //     //     });
-    // });
-//})
+            assert.equal(ret, false, "Verification incorrect: returning true when false"); 
+        })
+    
+    });
+})
