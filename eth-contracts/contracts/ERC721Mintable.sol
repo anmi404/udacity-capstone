@@ -4,11 +4,9 @@ import 'openzeppelin-solidity/contracts/utils/Address.sol';
 import 'openzeppelin-solidity/contracts/drafts/Counters.sol';
 import 'openzeppelin-solidity/contracts/math/SafeMath.sol';
 import 'openzeppelin-solidity/contracts/token/ERC721/IERC721Receiver.sol';
+import "./oraclizeAPI_0.5.sol";
 import 'openzeppelin-solidity/contracts/access/roles/PauserRole.sol';
 import 'openzeppelin-solidity/contracts/access/roles/MinterRole.sol';
-
-import "./oraclizeAPI_0.5.sol";
-
 contract Ownable {
     // * 1) create a private '_owner' variable of type address with a public getter function
     // * 2) create an internal constructor that sets the _owner var to the creater of the contract 
@@ -642,13 +640,12 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
      * @dev Internal function to set the token URI for a given token.
      * Reverts if the token ID does not exist.
      * @param tokenId uint256 ID of the token to set its URI
-     * @param uri string URI to assign
      */
+    //  * @param uri string URI to assign
     function _setTokenURI(uint256 tokenId) internal {
         require(_exists(tokenId), "ERC721Metadata: URI set of nonexistent token");
-        _tokenURIs[tokenId] = strConcat(uint2str(tokenId),_baseTokenURI);
+        _tokenURIs[tokenId] = strConcat(_baseTokenURI, uint2str(tokenId));
     }
-
 }
 
 //  TODO's: Create CustomERC721Token contract that inherits from the ERC721Metadata contract. You can name this contract as you please
@@ -663,21 +660,25 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
  * @title ERC721Mintable
  * @dev ERC721 minting logic.
  */
-contract CustomERC721Token is ERC721, ERC721Metadata, MinterRole {
+contract CustomERC721Token is ERC721, ERC721Metadata {
 
     string _baseTokenURI = "https://s3-us-west-2.amazonaws.com/udacity-blockchain/capstone/";
 
-    constructor (string memory name, string memory symbol, string memory baseTokenURI) ERC721Metadata(name, symbol, _baseTokenURI) public {
+    //constructor (string memory name, string memory symbol, string memory baseTokenURI) ERC721Metadata(name, symbol, _baseTokenURI) public {
+
+    //}
+
+    constructor (string memory name, string memory symbol) ERC721Metadata(name, symbol, _baseTokenURI) public {
 
     }
     /**
      * @dev Function to mint tokens.
      * @param to The address that will receive the minted tokens.
      * @param tokenId The token id to mint.
-     * @param tokenURI The token URI of the minted token.
      * @return A boolean that indicates if the operation was successful.
      */
-    function mintWithTokenURI(address to, uint256 tokenId, string memory tokenURI) public onlyMinter returns (bool) {
+    // * @param tokenURI The token URI of the minted token.
+    function mintWithTokenURI(address to, uint256 tokenId) public onlyOwner returns (bool) {
         _mint(to, tokenId);
         _setTokenURI(tokenId);
         return true;
